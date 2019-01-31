@@ -1,5 +1,5 @@
 #Flask
-from flask import Flask, request
+from flask import Flask, request, render_template
 #Import resource class from flask_restful
 from flask_restful import Resource, Api
 #Security features
@@ -15,7 +15,8 @@ api= Api(app)
 
 @app.route('/')
 def home():
-    return "Hello World"
+    world = "Hello World"
+    return render_template("main.html", market = world)
 
 
 app.run(port = 5000, debug=True)
