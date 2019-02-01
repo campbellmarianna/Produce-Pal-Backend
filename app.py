@@ -38,7 +38,7 @@ class Market(Resource):
     parser = reqparse.RequestParser()
     #req parser reqiures certiain field to be true before they are inputed into database
     parser.add_argument('location',
-        type=string,
+        type=str,
         required=True,
         help="This field cannot be left blank!"
     )
@@ -65,7 +65,7 @@ class Market(Resource):
 
     def put(self, name):
 
-        ata = Market.parser.parse_args()
+        data = Market.parser.parse_args()
         market = next(filter(lambda x: x['name'] == name, markets), None)
         if market is None:
             market = {'name': name, 'location': data['location']}
@@ -78,7 +78,7 @@ class Market(Resource):
         #filter out item to delete and create a new list
         # without that item overwriten to list name
         global markets
-        markets = list(filter(lambda x: x['name'] !- name, markets))
+        markets = list(filter(lambda x: x['name'] != name, markets))
         return {'message': 'market deleted'}
 
 #Index route turned into a class
@@ -88,7 +88,7 @@ class Marketlist(Resource):
 
 #Call the method in the market class
 api.add_resource(Market, '/market/<string:name>')
-api.add_resource(marketlist, '/markets')
+api.add_resource(Marketlist, '/markets')
 
 
 
