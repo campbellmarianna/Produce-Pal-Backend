@@ -1,11 +1,8 @@
-#Flask
+import sqlite3
 from flask import Flask, request, render_template
-#Import resource class from flask_restful
 from flask_restful import Resource, Api, reqparse
-#Security features
 from flask_jwt import JWT
 
-markets = []
 
 
 class Market(Resource):
@@ -19,7 +16,13 @@ class Market(Resource):
 
 #get used to retrive data
     def get(self, name):
-        #itterate over market list and return item
+        connection = sqlite3.commect('data.db')
+        cursor = connection.cursor()
+        query = "SELECT * FROM markets WHERE Name=?"
+
+
+
+
         market = next(filter(lambda x: x['name']==name, markets), None)
         return {'market': market},200 if market else 404 #404: Not Found
 
