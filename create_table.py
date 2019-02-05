@@ -7,7 +7,7 @@ connection = sqlite3.connect('data.db')
 cursor = connection.cursor()
 
 #Create table using a sting as a sql command and pass through the schema
-create_table = "CREATE TABLE markets (_id int, Name text, Address text)"
+create_table = "CREATE TABLE IF NOT EXISTS markets (id INTIGER NOT NULL PRIMARY KEY, Name text, Address text)"
 cursor.execute(create_table)
 
 # Eventually the create table will be:
@@ -20,8 +20,7 @@ insert_query = "INSERT INTO markets VALUES (?, ?, ?)"
 cursor.execute(insert_query, market)
 
 
-#More Markets
-
+##INsert many Markets
 markets = [
     (2, 'Alamany', 'Alamany Blvd, SF'),
     (3, 'NOPA', 'Baker St, SF'),

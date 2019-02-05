@@ -16,15 +16,18 @@ class Market(Resource):
 
 #get used to retrive data
     def get(self, name):
-        connection = sqlite3.commect('data.db')
+        connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
+
         query = "SELECT * FROM markets WHERE Name=?"
+        result = cursor.execute(query, (name,))
+        row = result.fetchone()
+        connection.close()
 
+        if row:
+            return{'market': {'Name': row[1], 'adress': row[2]}}
+        return{'message': 'Market not found'}, 404
 
-
-
-        market = next(filter(lambda x: x['name']==name, markets), None)
-        return {'market': market},200 if market else 404 #404: Not Found
 
 #post sends data to backend only
     def post(self, name):
