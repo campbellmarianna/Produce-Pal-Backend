@@ -5,7 +5,7 @@ from flask_restful import Resource, Api, reqparse
 #Security features
 from flask_jwt import JWT
 #TODO create Security authentication
-from controler import Market, Marketlist
+from markets import Market, Marketlist
 
 #Inialize app
 app = Flask(__name__)
