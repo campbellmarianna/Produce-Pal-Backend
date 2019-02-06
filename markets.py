@@ -61,8 +61,6 @@ class Market(Resource):
         connection.close()
 
 
-
-
     def put(self, name):
         data = Market.parser.parse_args()
 
@@ -110,4 +108,13 @@ class Market(Resource):
 #Index route turned into a class
 class Marketlist(Resource):
     def get(self):
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
+
+        query = "SELECT * FROM markets"
+        cursor.execute(query)
+        items = []
+        for row in result:
+            items.append({'name': row[1], 'adress': row[2]})
+        connection.close()
         return {'markets': markets}
