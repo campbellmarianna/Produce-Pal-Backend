@@ -8,7 +8,7 @@ from flask_jwt import JWT
 class Market(Resource):
     parser = reqparse.RequestParser()
     #req parser reqiures certiain field to be true before they are inputed into database
-    parser.add_argument('location',
+    parser.add_argument('Adress',
         type=str,
         required=True,
         help="This field cannot be left blank!"
@@ -16,6 +16,13 @@ class Market(Resource):
 
 #get used to retrive data
     def get(self, name):
+        market = self.find_by_name(name)
+        if market:
+            return market
+        return{'message': 'Market not found'}, 404
+
+    @classmethod
+    def find_by_name(cls, name):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
@@ -26,20 +33,24 @@ class Market(Resource):
 
         if row:
             return{'market': {'Name': row[1], 'adress': row[2]}}
-        return{'message': 'Market not found'}, 404
-
 
 #post sends data to backend only
     def post(self, name):
-        #Check to see if item in database and return error if it is
-        if next(filter(lambda x: x['name'] == name, markets), None):
-            return{'message': "An item with name '{}' already exists.".format(name)}, 400 #400: Bad Request
+        if self.find_by_name(name):
+            return{'message': "A market with name '{}' already exists.".format(name)},400
+
         data = Market.parser.parse_args()
         #inputs
-        market = {'name':name, 'location': 'oakland'} #testing
-        # market = {'name':name, 'location': data['location']} #should be used when request goes live
-        #append to markets list
-        markets.append(market)
+        market = {'Name':name, 'location': data['Adress']}
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
+
+        query = "INSERT INTO markets VALUES (?, ?)"
+        cursor.execute(query, (market['Name'], market['Adress']))
+
+        connection.commit()
+        connection.close()
+
         return market, 201 #201 = created
 
 
