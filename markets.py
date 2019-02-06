@@ -42,6 +42,15 @@ class Market(Resource):
         data = Market.parser.parse_args()
         #inputs
         market = {'Name':name, 'location': data['Adress']}
+        try:
+            self.insert(market)
+        except:
+            return {'message': "An error occured inserting the data."}, 500
+
+        return market, 201 #201 = created
+
+    @classmethod
+    def insert(cls, name):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
@@ -51,26 +60,52 @@ class Market(Resource):
         connection.commit()
         connection.close()
 
-        return market, 201 #201 = created
+
 
 
     def put(self, name):
-
         data = Market.parser.parse_args()
-        market = next(filter(lambda x: x['name'] == name, markets), None)
+
+        market = self.find_by_name(name)
+        updated_market = {'name': name, 'location': data['location']}
+
         if market is None:
-            market = {'name': name, 'location': data['location']}
-            markets.append(market)
+            try:
+                self.insert(updated_market)
+            except:
+                return {'message': "An error occured inserting the data."}, 500
+
         else:
-            market.update(data)
-        return market
+            try:
+                self.update(updated_item)
+            except:
+                return {'message': "An error occured updateing the data."}, 500
+        return updated_item
+
 
     def delete(self, name):
-        #filter out item to delete and create a new list
-        # without that item overwriten to list name
-        global markets
-        markets = list(filter(lambda x: x['name'] != name, markets))
-        return {'message': 'market deleted'}
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
+
+        query = "DELETE FROM markets WHERE Name=?"
+        result = cursor.execute(query, (name,))
+        row = result.fetchone()
+
+        connection.commit()
+        connection.close()
+
+        return {'message': "Item Deleted"}
+
+    @classmethod
+    def update(cls, item):
+        connection = sqlite3.connect('data.db')
+        cursor = connection.cursor()
+
+        query = "UPDATE {table} SET Adress=? WHERE name=?"
+        cursor.execute(query, (market['Adress'], market['Name']))
+
+        connection.commit()
+        connection.close()
 
 #Index route turned into a class
 class Marketlist(Resource):
