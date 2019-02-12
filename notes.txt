@@ -2,15 +2,15 @@
  1) set up security mod
  2) set up user mod
 
-
  Resources:
  Market Resource
-
-
-
  Farms Resource
+ User Resource
 
+ Questions:
  (ask Dani) interfacing our resource with USDA farmers market Api
 
 
- user Resource
+
+Resouces:
+- Helpful for implementing a API in Python: https://www.dataquest.io/blog/python-api-tutorial/
