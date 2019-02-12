@@ -17,12 +17,13 @@ cd produce-pal-backend
 
 The app should now be running on [localhost:3000](http://localhost:3000/).
 
-User can see farmer's markets and more information on a single farmer's market.
+Users can see farmer's markets and more information on a single farmer's market.
 
 ```
 Index - https://producepal.herokuapp.com/markets
 Show - https://producepal.herokuapp.com/market/<string:name>
 ```
+
 ## Project Backend Team
 
 Created by Eric Botcher and Marianna Campbell in Software Product Development(SPD) 1.3 at Make School
