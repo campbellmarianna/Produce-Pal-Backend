@@ -5,6 +5,8 @@ This app is a one-stop shop for farmers market.
 
 Official USDA National Farmers Market Directory API website:  https://search.ams.usda.gov/farmersmarkets/v1/svcdesc.html
 
+Website: https://producepal.herokuapp.com/
+
 ## Running Locally
 Make sure you have [Python](https://www.python.org/) >= 3 installed.
 
@@ -18,8 +20,8 @@ The app should now be running on [localhost:3000](http://localhost:3000/).
 User can see farmer's markets and more information on a single farmer's market.
 
 ```
-Index - http://localhost:3000/markets
-Show - http://localhost:3000/market/<string:name>
+Index - https://producepal.herokuapp.com/markets
+Show - https://producepal.herokuapp.com/market/<string:name>
 ```
 ## Project Backend Team
 
