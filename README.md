@@ -9,8 +9,8 @@ Official USDA National Farmers Market Directory API website:  https://search.ams
 Make sure you have [Python](https://www.python.org/) >= 3 installed.
 
 ```sh
-git clone https://github.com/campbellmarianna/Charity-Tracker.git
-cd charity-tracker
+git clone https://github.com/campbellmarianna/Produce-Pal-Backend.git
+cd produce-pal-backend
 ```
 
 The app should now be running on [localhost:3000](http://localhost:3000/).
