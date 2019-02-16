@@ -5,6 +5,7 @@ from markets import Market, Marketlist
 
 #Inialize app
 app = Flask(__name__)
+app.secret_key = 'alien'
 api= Api(app)
 
 #Hello world:
