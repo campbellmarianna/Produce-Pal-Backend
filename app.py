@@ -1,12 +1,18 @@
 from flask import Flask, render_template
 from flask_restful import Resource, Api
-from flask_jwt import JWT
 from markets import Market, Marketlist
+from flask_jwt import JWT, jwt_required
+
+#internal imports
+from security import authenticate, identity
+
 
 #Inialize app
 app = Flask(__name__)
 app.secret_key = 'alien'
 api= Api(app)
+
+jwt = JWT(app, authenticate, identity)
 
 #Hello world:
 
@@ -21,10 +27,7 @@ api.add_resource(Market, '/market/<string:name>')
 api.add_resource(Marketlist, '/markets')
 
 
-<<<<<<< HEAD
 if __name__ == '__main__':
     app.run(port = 5000, debug=True)
-=======
 
 app.run()
->>>>>>> aa7b3765295290d729c7c6c1e473a09857897a28
