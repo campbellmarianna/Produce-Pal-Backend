@@ -9,6 +9,7 @@ from security import authenticate, identity
 
 #Inialize app
 app = Flask(__name__)
+app.config['PROPAGATE_EXCEPTIONS'] = True
 app.secret_key = 'alien'
 api= Api(app)
 

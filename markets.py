@@ -43,7 +43,7 @@ class Market(Resource):
 
         data = Market.parser.parse_args()
         #inputs
-        market = {'Name':name, 'location': data['Adress']}
+        market = {'Name':name, 'Adress': data['Adress']}
         try:
             self.insert(market)
         except:
@@ -67,7 +67,7 @@ class Market(Resource):
         data = Market.parser.parse_args()
 
         market = self.find_by_name(name)
-        updated_market = {'name': name, 'location': data['location']}
+        updated_market = {'name': name, 'Adress': data['adress']}
 
         if market is None:
             try:
