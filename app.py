@@ -11,7 +11,7 @@ api= Api(app)
 
 @app.route('/')
 def home():
-    world = "Hello World"
+    world = "👽Hello Braus👽"
     return render_template("main.html", market = world)
 
 
@@ -20,10 +20,6 @@ api.add_resource(Market, '/market/<string:name>')
 api.add_resource(Marketlist, '/markets')
 
 
-<<<<<<< HEAD
+
 if __name__ == '__main__':
     app.run(port = 5000, debug=True)
-=======
-
-app.run()
->>>>>>> aa7b3765295290d729c7c6c1e473a09857897a28
