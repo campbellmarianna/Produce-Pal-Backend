@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Flask, request, render_template
 from flask_restful import Resource, Api, reqparse
-from flask_jwt import JWT, jwt_required
+# from flask_jwt import JWT, jwt_required
 
 from security import authenticate, identity
 
@@ -16,7 +16,7 @@ class Market(Resource):
     )
 
 #get used to retrive data
-    @jwt_required()
+    # @jwt_required()
     def get(self, name):
         market = self.find_by_name(name)
         if market:
@@ -62,7 +62,7 @@ class Market(Resource):
         connection.commit()
         connection.close()
 
-    @jwt_required()
+    # @jwt_required()
     def put(self, name):
         data = Market.parser.parse_args()
 
@@ -82,7 +82,7 @@ class Market(Resource):
                 return {'message': "An error occured updateing the data."}, 500
         return updated_item
 
-    @jwt_required()
+    # @jwt_required()
     def delete(self, name):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
