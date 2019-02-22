@@ -62,7 +62,7 @@ class Market(Resource):
         connection.commit()
         connection.close()
 
-
+    @jwt_required()
     def put(self, name):
         data = Market.parser.parse_args()
 
@@ -82,7 +82,7 @@ class Market(Resource):
                 return {'message': "An error occured updateing the data."}, 500
         return updated_item
 
-
+    @jwt_required()
     def delete(self, name):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()

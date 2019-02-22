@@ -19,7 +19,7 @@ jwt = JWT(app, authenticate, identity)
 
 @app.route('/')
 def home():
-    world = "Hello World"
+    world = "Hello Braus"
     return render_template("main.html", market = world)
 
 
