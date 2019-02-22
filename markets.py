@@ -36,7 +36,7 @@ class Market(Resource):
         connection.close()
 
         if row:
-            return{'market': {'Name': row[1], 'location': row[2]}}
+            return{'market': {'Name': row[0], 'location': row[1]}}
 
 #post sends data to backend only
     def post(self, name):
@@ -46,22 +46,23 @@ class Market(Resource):
         data = Market.parser.parse_args()
         #inputs
         market = {'Name':name, 'location': data['location']}
+        print("test0.3")
         print(market)
-        try:
-            print("test0")
-            self.insert(market)
-        except:
-            return {'message': "An error occured inserting the data."}, 500
+        # try:
+        print("test0")
+        self.insert(market)
+        # except:
+        #     return {'message': "An error occured inserting the data."}, 500
 
         return market, 201 #201 = created
 
     @classmethod
-    def insert(cls, name):
+    def insert(cls, market):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
         query = "INSERT INTO {table} VALUES (?, ?)".format(table=cls.TABLE_NAME)
         print("Test1.5")
-        cursor.execute(query, (market['name'], market['location']))
+        cursor.execute(query, (market['Name'], market['location']))
 
         connection.commit()
         connection.close()
@@ -85,24 +86,24 @@ class Market(Resource):
         market = self.find_by_name(name)
         updated_market = {'name': name, 'location': data['location']}
         if market is None:
-            try:
-                self.insert(updated_market)
-            except:
-                return {'message': "An error occured inserting the data."}, 500
+            # try:
+            self.insert(updated_market)
+            # except:
+                # return {'message': "An error occured inserting the data."}, 500
         else:
-            try:
-                Market.update(updated_item)
-            except:
-                return {'message': "An error occured updateing the data."}, 500
-        return updated_item
+            # try:
+            Market.update(updated_market)
+            # except:
+                # return {'message': "An error occured updateing the data."}, 500
+        return updated_market
 
     @classmethod
-    def update(cls, item):
+    def update(cls, market):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
         query = "UPDATE {table} SET location=? WHERE name=?".format(table=cls.TABLE_NAME)
-        cursor.execute(query, (market['location'], market['Name']))
+        cursor.execute(query, (market['location'], market['name']))
 
         connection.commit()
         connection.close()
@@ -119,6 +120,6 @@ class Marketlist(Resource):
         result = cursor.execute(query)
         markets = []
         for row in result:
-            markets.append({'name': row[1], 'location': row[2]})
+            markets.append({'name': row[0], 'location': row[1]})
         connection.close()
         return {'markets': markets}

@@ -2,8 +2,6 @@ from flask import Flask, render_template
 from flask_restful import Resource, Api
 from markets import Market, Marketlist
 from flask_jwt import JWT, jwt_required
-
-#internal imports
 # from security import authenticate, identity
 
 
