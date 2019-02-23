@@ -11,7 +11,7 @@ api= Api(app)
 
 @app.route('/')
 def home():
-    world = "👽Hello Braus👽"
+    world = "👽 Hello Braus 👽"
     return render_template("main.html", market = world)
 
 
