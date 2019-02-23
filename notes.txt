@@ -14,3 +14,4 @@
 
 Resouces:
 - Helpful for implementing a API in Python: https://www.dataquest.io/blog/python-api-tutorial/
+- Good post for deploying to Flask: https://medium.com/@jasmine.yhumbert/how-to-get-your-flask-app-running-on-heroku-892030811c0f
