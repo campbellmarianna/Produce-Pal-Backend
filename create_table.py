@@ -10,15 +10,10 @@ cursor = connection.cursor()
 create_table = "CREATE TABLE IF NOT EXISTS markets ( Name text, location text)"
 cursor.execute(create_table)
 
-# Eventually the create table will be:
-# create_table = "CREATE TABLE markets(_id int, Market_name text, Address text, lat_long numeric, day_time text, website text, venders_id int )"
-
-
 # Insert one market
 market = ('Ferry Building Farmers Market', 'One Ferry Building #50, San Francisco, CA 94111')
-insert_query = "INSERT INTO markets VALUES (?, ?)"
-cursor.execute(insert_query, market)
-
+insert_query_M = "INSERT INTO markets VALUES (?, ?)"
+cursor.execute(insert_query_M, market)
 
 ##INsert many Markets
 markets = [
@@ -27,11 +22,27 @@ markets = [
     ('SFSU', '100 Holloway Drive, SF')
 ]
 
-cursor.executemany(insert_query, markets)
+cursor.executemany(insert_query_M, markets)
 
-select_query = "SELECT * FROM markets"
-for row in cursor.execute(select_query):
-    print(row)
+create_table_U = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username text, password text)"
+cursor.execute(create_table_U)
+
+
+# user Test data:
+users = {
+    (1, 'alien', 'asdf'),
+    (2, 'mar', 'jkl;'),
+    (3, 'skippy', 'jackass')
+
+}
+
+# User insert query
+insert_query_U = "INSERT INTO users VALUES (?, ?, ?)"
+cursor.executemany(insert_query_U, users)
+
+# select_query = "SELECT * FROM markets"
+# for row in cursor.execute(select_query):
+#     print(row)
 
 # commit to the database
 connection.commit()

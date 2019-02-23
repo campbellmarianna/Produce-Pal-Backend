@@ -46,14 +46,10 @@ class Market(Resource):
         data = Market.parser.parse_args()
         #inputs
         market = {'Name':name, 'location': data['location']}
-        print("test0.3")
-        print(market)
-        # try:
-        print("test0")
-        self.insert(market)
-        # except:
-        #     return {'message': "An error occured inserting the data."}, 500
-
+        try:
+            self.insert(market)
+        except:
+            return {'message': "An error occured inserting the data."}, 500
         return market, 201 #201 = created
 
     @classmethod
@@ -86,25 +82,23 @@ class Market(Resource):
         market = self.find_by_name(name)
         updated_market = {'name': name, 'location': data['location']}
         if market is None:
-            # try:
+            try:
             self.insert(updated_market)
-            # except:
-                # return {'message': "An error occured inserting the data."}, 500
+            except:
+                return {'message': "An error occured inserting the data."}, 500
         else:
-            # try:
+            try:
             Market.update(updated_market)
-            # except:
-                # return {'message': "An error occured updateing the data."}, 500
+            except:
+                return {'message': "An error occured updateing the data."}, 500
         return updated_market
 
     @classmethod
     def update(cls, market):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
-
         query = "UPDATE {table} SET location=? WHERE name=?".format(table=cls.TABLE_NAME)
         cursor.execute(query, (market['location'], market['name']))
-
         connection.commit()
         connection.close()
 
