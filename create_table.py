@@ -20,30 +20,26 @@ markets = [
     ('Alamany', 'Alamany Blvd, SF'),
     ('NOPA', 'Baker St, SF'),
     ('SFSU', '100 Holloway Drive, SF')
-]
+            ]
 
 cursor.executemany(insert_query_M, markets)
 
 create_table_U = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username text, password text)"
 cursor.execute(create_table_U)
 
-
-# user Test data:
-users = {
+users = [
     (1, 'alien', 'asdf'),
     (2, 'mar', 'jkl;'),
     (3, 'skippy', 'jackass')
-
-}
+        ]
 
 # User insert query
 insert_query_U = "INSERT INTO users VALUES (?, ?, ?)"
 cursor.executemany(insert_query_U, users)
 
-# select_query = "SELECT * FROM markets"
-# for row in cursor.execute(select_query):
-#     print(row)
+print(markets)
 
+print(users)
 # commit to the database
 connection.commit()
 # Close filter

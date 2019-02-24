@@ -1,7 +1,7 @@
 import sqlite3
 from flask import Flask, request, render_template
 from flask_restful import Resource, Api, reqparse
-# from flask_jwt import JWT, jwt_required
+from flask_jwt import JWT, jwt_required
 
 from security import authenticate, identity
 
@@ -18,7 +18,7 @@ class Market(Resource):
     )
 
 #get used to retrive data
-    # @jwt_required()
+    @jwt_required()
     def get(self, name):
         market = self.find_by_name(name)
         if market:
@@ -83,12 +83,12 @@ class Market(Resource):
         updated_market = {'name': name, 'location': data['location']}
         if market is None:
             try:
-            self.insert(updated_market)
+                self.insert(updated_market)
             except:
                 return {'message': "An error occured inserting the data."}, 500
         else:
             try:
-            Market.update(updated_market)
+                Market.update(updated_market)
             except:
                 return {'message': "An error occured updateing the data."}, 500
         return updated_market

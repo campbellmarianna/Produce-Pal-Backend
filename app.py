@@ -2,19 +2,19 @@ from flask import Flask, render_template
 from flask_restful import Resource, Api
 from markets import Market, Marketlist
 from flask_jwt import JWT, jwt_required
-# from security import authenticate, identity
+
+from security import authenticate, identity
 
 
 #Inialize app
 app = Flask(__name__)
-# app.config['PROPAGATE_EXCEPTIONS'] = True
-# app.secret_key = 'alien'
+app.config['PROPAGATE_EXCEPTIONS'] = True
+app.secret_key = 'alien'
 api= Api(app)
 
-# jwt = JWT(app, authenticate, identity)
+jwt = JWT(app, authenticate, identity)
 
 #Hello world:
-
 @app.route('/')
 def home():
     world = "Hello Braus"
