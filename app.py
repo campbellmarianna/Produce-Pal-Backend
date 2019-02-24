@@ -1,10 +1,11 @@
 from flask import Flask, render_template
 from flask_restful import Resource, Api
-from markets import Market, Marketlist
 from flask_jwt import JWT, jwt_required
 
 from security import authenticate, identity
-from user import UserRegester
+from resources.user import UserRegester
+from resources.markets import Market, Marketlist
+
 
 
 #Inialize app
