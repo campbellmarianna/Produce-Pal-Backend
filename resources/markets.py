@@ -4,9 +4,11 @@ from flask_restful import Resource, Api, reqparse
 from flask_jwt import JWT, jwt_required
 
 from security import authenticate, identity
+from models.market import MarketModel
 
 
 class Market(Resource):
+    """ this is our market resource API"""
     TABLE_NAME = 'markets'
 
     parser = reqparse.RequestParser()
@@ -20,48 +22,24 @@ class Market(Resource):
 #get used to retrive data
     # @jwt_required()
     def get(self, name):
-        market = self.find_by_name(name)
+        market = MarketModel.find_by_name(name)
         if market:
-            return market
+            return market.json()
         return{'message': 'Market not found'}, 404
-
-    @classmethod
-    def find_by_name(cls, name):
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-
-        query = "SELECT * FROM {table} WHERE name=?".format(table=cls.TABLE_NAME)
-        result = cursor.execute(query, (name,))
-        row = result.fetchone()
-        connection.close()
-
-        if row:
-            return{'market': {'name': row[0], 'location': row[1]}}
 
 #post sends data to backend only
     def post(self, name):
-        if self.find_by_name(name):
+        if MarketModel.find_by_name(name):
             return{'message': "A market with name '{}' already exists.".format(name)},400
 
         data = Market.parser.parse_args()
         #inputs
-        market = {'name':name, 'location': data['location']}
+        market = MarketModel(name, data['location'])
         try:
-            self.insert(market)
+            market.insert()
         except:
             return {'message': "An error occured inserting the data."}, 500
-        return market, 201 #201 = created
-
-    @classmethod
-    def insert(cls, market):
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-
-        query = "INSERT INTO {table} VALUES (?, ?)".format(table=cls.TABLE_NAME)
-        cursor.execute(query, (market['name'], market['location']))
-
-        connection.commit()
-        connection.close()
+        return market.json(), 201 #201 = created
 
     # @jwt_required()
     def delete(self, name):
@@ -79,35 +57,30 @@ class Market(Resource):
     # @jwt_required()
     def put(self, name):
         data = Market.parser.parse_args()
-        market = self.find_by_name(name)
-        updated_market = {'name': name, 'location': data['location']}
+
+        market = MarketModel.find_by_name(name)
+        updated_market = MarketModel(name, data['location'])
+        print("test1")
+
         if market is None:
             try:
-                self.insert(updated_market)
+                updated_market.insert()
             except:
                 return {'message': "An error occured inserting the data."}, 500
         else:
-            try:
-                Market.update(updated_market)
-            except:
-                return {'message': "An error occured updateing the data."}, 500
+            # try:
+            print("test2")
+            updated_market.update()
+            print("test3")
+            # except:
+            #     return {'message': "An error occured updateing the data."}, 500
         return updated_market
+        print("test4")
 
-    @classmethod
-    def update(cls, market):
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-
-        query = "UPDATE {table} SET location=? WHERE name=?".format(table=cls.TABLE_NAME)
-        cursor.execute(query, (market['location'], market['name']))
-
-        connection.commit()
-        connection.close()
 
 #Index route turned into a class
 class Marketlist(Resource):
     TABLE_NAME = 'markets'
-
 
     def get(self):
         connection = sqlite3.connect('data.db')
