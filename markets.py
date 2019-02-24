@@ -18,7 +18,7 @@ class Market(Resource):
     )
 
 #get used to retrive data
-    @jwt_required()
+    # @jwt_required()
     def get(self, name):
         market = self.find_by_name(name)
         if market:

@@ -24,22 +24,29 @@ markets = [
 
 cursor.executemany(insert_query_M, markets)
 
-create_table_U = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, username text, password text)"
+create_table_U = "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, username text, password text)"
 cursor.execute(create_table_U)
 
 users = [
-    (1, 'alien', 'asdf'),
-    (2, 'mar', 'jkl;'),
-    (3, 'skippy', 'jackass')
+    ('alien', 'asdf'),
+    ('mar', 'jkl;'),
+    ('skippy', 'jackass')
         ]
 
 # User insert query
-insert_query_U = "INSERT INTO users VALUES (?, ?, ?)"
+insert_query_U = "INSERT INTO users VALUES (NULL , ?, ?)"
 cursor.executemany(insert_query_U, users)
 
-print(markets)
+# test queries
+test_q_1= "SELECT * FROM markets"
+print(test_q_1)
 
+test_q_2 = "SELECT * FROM users"
+print(test_q_2)
+
+print(markets)
 print(users)
+
 # commit to the database
 connection.commit()
 # Close filter
