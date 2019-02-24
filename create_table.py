@@ -7,7 +7,7 @@ connection = sqlite3.connect('data.db')
 cursor = connection.cursor()
 
 #Create table using a sting as a sql command and pass through the schema
-create_table = "CREATE TABLE IF NOT EXISTS markets ( Name text, location text)"
+create_table = "CREATE TABLE IF NOT EXISTS markets ( name text, location text)"
 cursor.execute(create_table)
 
 # Insert one market

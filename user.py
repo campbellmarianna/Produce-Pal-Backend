@@ -61,11 +61,12 @@ class UserRegester(Resource):
         required=True,
         help="This field cannot be left blank!")
 
-
-
-
     def post(self):
         data = UserRegester.parser.parse_args()
+
+        if User.find_by_username(data['username']):
+            return {"Message":"A user with that name already exits"}
+
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
@@ -75,4 +76,4 @@ class UserRegester(Resource):
         connection.commit()
         connection.close()
 
-        return{"message": "User created successfully."}, 201
+        return{"message": "user created successfully."}, 201

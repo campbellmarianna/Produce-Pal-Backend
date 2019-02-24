@@ -30,13 +30,13 @@ class Market(Resource):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
-        query = "SELECT * FROM {table} WHERE Name=?".format(table=cls.TABLE_NAME)
+        query = "SELECT * FROM {table} WHERE name=?".format(table=cls.TABLE_NAME)
         result = cursor.execute(query, (name,))
         row = result.fetchone()
         connection.close()
 
         if row:
-            return{'market': {'Name': row[0], 'location': row[1]}}
+            return{'market': {'name': row[0], 'location': row[1]}}
 
 #post sends data to backend only
     def post(self, name):
@@ -45,7 +45,7 @@ class Market(Resource):
 
         data = Market.parser.parse_args()
         #inputs
-        market = {'Name':name, 'location': data['location']}
+        market = {'name':name, 'location': data['location']}
         try:
             self.insert(market)
         except:
@@ -56,9 +56,9 @@ class Market(Resource):
     def insert(cls, market):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
+
         query = "INSERT INTO {table} VALUES (?, ?)".format(table=cls.TABLE_NAME)
-        print("Test1.5")
-        cursor.execute(query, (market['Name'], market['location']))
+        cursor.execute(query, (market['name'], market['location']))
 
         connection.commit()
         connection.close()
@@ -68,7 +68,7 @@ class Market(Resource):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
-        query = "DELETE FROM {table} WHERE Name=?".format(table=self.TABLE_NAME)
+        query = "DELETE FROM {table} WHERE name=?".format(table=self.TABLE_NAME)
         result = cursor.execute(query, (name,))
 
         connection.commit()
@@ -97,8 +97,10 @@ class Market(Resource):
     def update(cls, market):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
+
         query = "UPDATE {table} SET location=? WHERE name=?".format(table=cls.TABLE_NAME)
         cursor.execute(query, (market['location'], market['name']))
+
         connection.commit()
         connection.close()
 
@@ -110,10 +112,12 @@ class Marketlist(Resource):
     def get(self):
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
+
         query = "SELECT * FROM {table}".format(table=self.TABLE_NAME)
         result = cursor.execute(query)
         markets = []
         for row in result:
             markets.append({'name': row[0], 'location': row[1]})
         connection.close()
+
         return {'markets': markets}
