@@ -10,7 +10,7 @@ from resources.markets import Market, Marketlist
 
 #Inialize app
 app = Flask(__name__)
-# app.config['PROPAGATE_EXCEPTIONS'] = True
+app.config['SQLALCHEMY_TRACK_MODIFCATIONS'] = False
 # app.secret_key = 'alien'
 api= Api(app)
 
@@ -29,6 +29,8 @@ api.add_resource(Marketlist, '/markets')
 api.add_resource(UserRegester, '/regester')
 
 if __name__ == '__main__':
+    from db import db
+    db.init_app(app)
     app.run(port = 5000, debug=True)
 
 app.run()

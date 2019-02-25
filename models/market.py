@@ -1,6 +1,13 @@
 import sqlite3
+from db import db
 
-class MarketModel:
+class MarketModel(db.Model):
+    __tablename__='markets'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80))
+    name = db.Column(db.String(300))
+
 
     def __init__(self, name, location):
         self.name = name

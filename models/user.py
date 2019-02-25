@@ -1,11 +1,17 @@
 import sqlite3
+from db import db
 
-class UserModel:
+class UserModel(db.Model):
+    __tablename__ = ('users')
     """our basic user template"""
-    TABLE_NAME = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.column(db.String(80))
+    password = db.column(db.String(80))
+
 
     def __init__(self, id, username, password):
-        self.id = id
+        self.id = _id
         self.username = username
         self.password = password
 
@@ -15,7 +21,7 @@ class UserModel:
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
-        query = "SELECT * FROM {table} WHERE username=?".format(table=cls.TABLE_NAME)
+        query = "SELECT * FROM users WHERE username=?"
         result = cursor.execute(query, (username,))
         row = result.fetchone()
         if row:
@@ -33,7 +39,7 @@ class UserModel:
         connection = sqlite3.connect('data.db')
         cursor = connection.cursor()
 
-        query = "SELECT * FROM {table} WHERE id=?".format(table=cls.TABLE_NAME)
+        query = "SELECT * FROM users WHERE id=?"
         result = cursor.execute(query, (_id,))
         row = result.fetchone()
         if row:

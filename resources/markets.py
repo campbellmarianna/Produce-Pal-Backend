@@ -68,14 +68,11 @@ class Market(Resource):
             except:
                 return {'message': "An error occured inserting the data."}, 500
         else:
-            # try:
-            print("test2")
-            updated_market.update()
-            print("test3")
-            # except:
-            #     return {'message': "An error occured updateing the data."}, 500
+            try:
+                updated_market.update()
+            except:
+                return {'message': "An error occured updateing the data."}, 500
         return updated_market
-        print("test4")
 
 
 #Index route turned into a class
