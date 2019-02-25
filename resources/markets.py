@@ -77,17 +77,5 @@ class Market(Resource):
 
 #Index route turned into a class
 class Marketlist(Resource):
-    TABLE_NAME = 'markets'
-
     def get(self):
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-
-        query = "SELECT * FROM {table}".format(table=self.TABLE_NAME)
-        result = cursor.execute(query)
-        markets = []
-        for row in result:
-            markets.append({'name': row[0], 'location': row[1]})
-        connection.close()
-
-        return {'markets': markets}
+        return {'markets': list(map(lambda x: x.json(), MarketModel.query.all()))}
