@@ -24,13 +24,7 @@ class UserRegester(Resource):
         if UserModel.find_by_username(data['username']):
             return {"Message":"A user with that name already exits"}
 
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
-
-        query = "INSERT INTO {table} VALUES (NULL, ?, ?)".format(table=self.TABLE_NAME)
-        cursor.execute(query, (data['username'], data['password']))
-
-        connection.commit()
-        connection.close()
+        user = UserModel(**data)
+        user.save_to_db()
 
         return{"message": "user created successfully."}, 201
