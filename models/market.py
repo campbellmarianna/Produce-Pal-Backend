@@ -7,10 +7,14 @@ class MarketModel(db.Model):
     name = db.Column(db.String(80))
     location = db.Column(db.String(300))
 
+    farm_id = db.Column(db.Integer, db.ForeignKey('farms.id'))
+    farm = db.relationship('FarmModel')
 
-    def __init__(self, name, location):
+
+    def __init__(self, name, location, farm_id):
         self.name = name
         self.location = location
+        self.farm_id = farm_id
 
     def json(self):
         return {'name': self.name, 'location': self.location}

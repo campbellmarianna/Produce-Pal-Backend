@@ -5,7 +5,7 @@ from flask_jwt import JWT, jwt_required
 from security import authenticate, identity
 from resources.user import UserRegester
 from resources.markets import Market, Marketlist
-
+from resources.farm import Farm, FarmList
 
 
 #Inialize app
@@ -29,9 +29,12 @@ def home():
 
 
 #Call the method in the market class
+api.add_resource(Farm, '/farm/<string:name>')
 api.add_resource(Market, '/market/<string:name>')
+api.add_resource(FarmList, '/farms')
 api.add_resource(Marketlist, '/markets')
 api.add_resource(UserRegester, '/regester')
+
 
 if __name__ == '__main__':
     from db import db
