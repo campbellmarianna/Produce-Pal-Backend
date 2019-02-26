@@ -36,43 +36,34 @@ class Market(Resource):
         #inputs
         market = MarketModel(name, data['location'])
         try:
-            market.insert()
+            market.save_to_db()
         except:
             return {'message': "An error occured inserting the data."}, 500
         return market.json(), 201 #201 = created
 
     # @jwt_required()
     def delete(self, name):
-        connection = sqlite3.connect('data.db')
-        cursor = connection.cursor()
+        market = MarketModel.find_by_name(name)
+        if market:
+            market.delete_from_db()
 
-        query = "DELETE FROM {table} WHERE name=?".format(table=self.TABLE_NAME)
-        result = cursor.execute(query, (name,))
+        return {'message': "market deleted"}
 
-        connection.commit()
-        connection.close()
-
-        return {'message': "Item Deleted"}
 
     # @jwt_required()
     def put(self, name):
         data = Market.parser.parse_args()
 
         market = MarketModel.find_by_name(name)
-        updated_market = MarketModel(name, data['location'])
-        print("test1")
 
         if market is None:
-            try:
-                updated_market.insert()
-            except:
-                return {'message': "An error occured inserting the data."}, 500
+            market = MarketModel(name, data['location'])
         else:
-            try:
-                updated_market.update()
-            except:
-                return {'message': "An error occured updateing the data."}, 500
-        return updated_market
+            market.location = data['location']
+
+        market.save_to_db()
+
+        return market.json()
 
 
 #Index route turned into a class
