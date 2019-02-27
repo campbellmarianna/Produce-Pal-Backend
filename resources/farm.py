@@ -4,11 +4,8 @@ from models.farm import FarmModel
 class Farm(Resource):
 
     def get(self, name):
-        print("****************************TEST1")
         farm = FarmModel.find_by_name(name)
-        print("****************************TEST2")
         if farm:
-            print("****************************FARM!!!")
             return farm.json()
         return {'message': 'Farm not found'}, 404
 

@@ -19,7 +19,6 @@ class FarmModel(db.Model):
 
     @classmethod
     def find_by_name(cls, name):
-        print("testtttttttt")
         return cls.query.filter_by(name=name).first()
 
     def save_to_db(self):
