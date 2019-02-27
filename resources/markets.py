@@ -25,7 +25,7 @@ class Market(Resource):
     )
 
 #get used to retrive data
-    # @jwt_required()
+    @jwt_required()
     def get(self, name):
         market = MarketModel.find_by_name(name)
         if market:
@@ -45,14 +45,14 @@ class Market(Resource):
             return {'message': "An error occured inserting the data."}, 500
         return market.json(), 201 #201 = created
 
-    # @jwt_required()
+    @jwt_required()
     def delete(self, name):
         market = MarketModel.find_by_name(name)
         if market:
             market.delete_from_db()
         return {'message': "market deleted"}
 
-    # @jwt_required()
+    @jwt_required()
     def put(self, name):
         data = Market.parser.parse_args()
         market = MarketModel.find_by_name(name)

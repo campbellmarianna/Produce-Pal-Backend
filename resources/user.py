@@ -1,14 +1,11 @@
 import sqlite3
 from flask_restful import Resource, reqparse
-
 from models.user import UserModel
 
 
 class UserRegester(Resource):
-    TABLE_NAME = 'users'
 
     parser = reqparse.RequestParser()
-    #req parser reqiures certiain field to be true before they are inputed into database
     parser.add_argument('username',
         type=str,
         required=True,

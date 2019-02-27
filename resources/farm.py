@@ -1,17 +1,18 @@
 from flask_restful import Resource
+from flask_jwt import JWT, jwt_required
+
 from models.farm import FarmModel
 
 class Farm(Resource):
-
+    
+    @jwt_required
     def get(self, name):
-        print("****************************TEST1")
         farm = FarmModel.find_by_name(name)
-        print("****************************TEST2")
         if farm:
-            print("****************************FARM!!!")
             return farm.json()
         return {'message': 'Farm not found'}, 404
 
+    @jwt_required
     def post(self, name):
         if FarmModel.find_by_name(name):
             return {'message': "A farm with name '{}' already exists.".format(name)},400
@@ -24,6 +25,7 @@ class Farm(Resource):
 
         return farm.json(), 201
 
+    @jwt_required
     def delete(self, name):
         farm = FarmModel.find_by_name(name)
         if farm:
@@ -33,5 +35,6 @@ class Farm(Resource):
 
 
 class FarmList(Resource):
+    @jwt_required
     def get(self):
         return {'farms': list(map(lambda farm: farm.json(), FarmModel.query.all()))}
