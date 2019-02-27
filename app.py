@@ -12,7 +12,7 @@ from resources.farm import Farm, FarmList
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #tells SQL alcamy that the DB is in our root file
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-# app.secret_key = 'alien'
+
 api= Api(app)
 
 @app.before_first_request
