@@ -1,67 +1,53 @@
-import base64
-import binascii
+# -*- coding: utf-8 -*-
+#
+# Copyright 2017 Gehirn Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-try:
-    from cryptography.hazmat.primitives.asymmetric.utils import (
-        decode_rfc6979_signature, encode_rfc6979_signature
-    )
-except ImportError:
-    pass
-
-
-def base64url_decode(input):
-    rem = len(input) % 4
-
-    if rem > 0:
-        input += b'=' * (4 - rem)
-
-    return base64.urlsafe_b64decode(input)
-
-
-def base64url_encode(input):
-    return base64.urlsafe_b64encode(input).replace(b'=', b'')
+from base64 import (
+    urlsafe_b64encode,
+    urlsafe_b64decode,
+)
 
 
-def merge_dict(original, updates):
-    if not updates:
-        return original
-
-    try:
-        merged_options = original.copy()
-        merged_options.update(updates)
-    except (AttributeError, ValueError) as e:
-        raise TypeError('original and updates must be a dictionary: %s' % e)
-
-    return merged_options
+def b64encode(s: bytes) -> str:
+    s_bin = urlsafe_b64encode(s)
+    s_bin = s_bin.replace(b'=', b'')
+    return s_bin.decode('ascii')
 
 
-def number_to_bytes(num, num_bytes):
-    padded_hex = '%0*x' % (2 * num_bytes, num)
-    big_endian = binascii.a2b_hex(padded_hex.encode('ascii'))
-    return big_endian
+def b64decode(s: str) -> bytes:
+    s_bin = s.encode('ascii')
+    s_bin += b'=' * (4 - len(s_bin) % 4)
+    return urlsafe_b64decode(s_bin)
 
 
-def bytes_to_number(string):
-    return int(binascii.b2a_hex(string), 16)
+def uint_b64encode(value: int) -> str:
+    length = 1
+    rem = value >> 8
+    while rem:
+        length += 1
+        rem >>= 8
+
+    uint_bin = value.to_bytes(length, 'big', signed=False)
+    return b64encode(uint_bin)
 
 
-def der_to_raw_signature(der_sig, curve):
-    num_bits = curve.key_size
-    num_bytes = (num_bits + 7) // 8
+def uint_b64decode(uint_b64: str) -> int:
+    uint_bin = b64decode(uint_b64)
 
-    r, s = decode_rfc6979_signature(der_sig)
-
-    return number_to_bytes(r, num_bytes) + number_to_bytes(s, num_bytes)
-
-
-def raw_to_der_signature(raw_sig, curve):
-    num_bits = curve.key_size
-    num_bytes = (num_bits + 7) // 8
-
-    if len(raw_sig) != 2 * num_bytes:
-        raise ValueError('Invalid signature')
-
-    r = bytes_to_number(raw_sig[:num_bytes])
-    s = bytes_to_number(raw_sig[num_bytes:])
-
-    return encode_rfc6979_signature(r, s)
+    value = 0
+    for b in uint_bin:
+        value <<= 8
+        value += int(b)
+    return value
