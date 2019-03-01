@@ -1,3 +1,5 @@
+import os # gives us access to operating system environment variables
+
 from flask import Flask, render_template
 from flask_restful import Resource, Api
 from flask_jwt import JWT, jwt_required
@@ -10,7 +12,7 @@ from resources.farm import Farm, FarmList
 
 #Inialize app
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #tells SQL alcamy that the DB is in our root file
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL','sqlite:///data.db') 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 api= Api(app)
