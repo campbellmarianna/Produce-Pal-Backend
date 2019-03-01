@@ -6,6 +6,7 @@ class FarmModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
+    location=db.Column(db.String(200))
     # location = db.Column(db.String(300))
 
     markets = db.relationship('MarketModel', lazy='dynamic')
@@ -13,9 +14,11 @@ class FarmModel(db.Model):
 
     def __init__(self, name):
         self.name = name
+        self.location = None
+
 
     def json(self):
-        return {'name': self.name, 'markets': [market.json() for market in self.markets.all()]}
+        return {'name': self.name, 'location': self.location, 'markets': [market.json() for market in self.markets.all()]}
 
     @classmethod
     def find_by_name(cls, name):

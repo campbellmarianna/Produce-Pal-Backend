@@ -17,9 +17,12 @@ class UserRegester(Resource):
 
     def post(self):
         data = UserRegester.parser.parse_args()
-
+        print("TEST!!!!")
+        username = data.get('username', None)
+        if not username:
+            return {"message": "Username not found."}
         if UserModel.find_by_username(data['username']):
-            return {"Message":"A user with that name already exits"}
+            return {"message":"A user with that name already exists."}
 
         user = UserModel(**data)
         user.save_to_db()
