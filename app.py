@@ -18,23 +18,17 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #tells SQL alcamy that the DB is in our root file
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
-app.config['JWT_AUTH_USERNAME_KEY'] = 'alien'
+# app.config['JWT_AUTH_USERNAME_KEY'] = 'joy'
 # app.config['JWT_AUTH_PASSWORD_KEY'] = 'asdf'
 
 app.secret_key = 'jose'
-
-
-
-
-
-
-
-
 
 # app.secret_key = load_dotenv(SECRET_KEY)
 api= Api(app)
 
 jwt = JWT(app, authenticate, identity) #/auth
+
+# help(JWT)
 
 @app.before_first_request
 def create_tables():

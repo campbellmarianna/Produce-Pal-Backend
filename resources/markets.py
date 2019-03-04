@@ -25,7 +25,6 @@ class Market(Resource):
     )
 
 #get used to retrive data
-    @jwt_required()
     def get(self, name):
         market = MarketModel.find_by_name(name)
         if market:
@@ -33,11 +32,14 @@ class Market(Resource):
         return{'message': 'Market not found'}, 404
 
 #post sends data to backend only
+    # @jwt_required()
     def post(self, name):
+        print("test1")
         if MarketModel.find_by_name(name):
             return{'message': "A market with name '{}' already exists.".format(name)},400
 
         data = Market.parser.parse_args()
+        print("test2")
         market = MarketModel(name, **data)
         try:
             market.save_to_db()

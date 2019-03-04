@@ -17,7 +17,6 @@ class UserRegester(Resource):
 
     def post(self):
         data = UserRegester.parser.parse_args()
-        print("TEST!!!!")
         username = data.get('username', None)
         if not username:
             return {"message": "Username not found."}
