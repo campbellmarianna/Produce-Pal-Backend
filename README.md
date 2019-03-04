@@ -7,6 +7,8 @@ Official USDA National Farmers Market Directory API website:  https://search.ams
 
 Website: https://producepal.herokuapp.com/
 
+Documentation: https://campbellmarianna.github.io/Produce-Pal-Backend/
+
 ## Running Locally
 Make sure you have [Python](https://www.python.org/) >= 3 installed.
 

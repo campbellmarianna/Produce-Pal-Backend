@@ -7,8 +7,17 @@ Official USDA National Farmers Market Directory API website:  https://search.ams
 
 Website: https://producepal.herokuapp.com/
 
-Documentation: https://campbellmarianna.github.io/Produce-Pal-Backend/
+## Base URL
 
+```
+https://producepal.herokuapp.com/
+```
+Users can see farmer's markets and more information on a single farmer's market and farm.
+
+```
+Index - https://producepal.herokuapp.com/markets
+Show - https://producepal.herokuapp.com/market/<string:name>
+```
 ## Running Locally
 Make sure you have [Python](https://www.python.org/) >= 3 installed.
 
@@ -17,14 +26,10 @@ git clone https://github.com/campbellmarianna/Produce-Pal-Backend.git
 cd produce-pal-backend
 ```
 
-The app should now be running on [localhost:3000](http://localhost:3000/).
+The app should now be running on [localhost:5000](http://localhost:5000/).
 
-Users can see farmer's markets and more information on a single farmer's market.
 
-```
-Index - https://producepal.herokuapp.com/markets
-Show - https://producepal.herokuapp.com/market/<string:name>
-```
+
 
 ## Project Backend Team
 
