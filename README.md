@@ -17,7 +17,7 @@ git clone https://github.com/campbellmarianna/Produce-Pal-Backend.git
 cd produce-pal-backend
 ```
 
-The app should now be running on [localhost:3000](http://localhost:3000/).
+The app should now be running on [localhost:5000](http://localhost:5000/).
 
 Users can see farmer's markets and more information on a single farmer's market.
 
