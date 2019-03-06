@@ -41,8 +41,8 @@ class Market(Resource):
         market = MarketModel(name, **data)
         try:
             market.save_to_db()
-        except:
-            return {'message': "An error occured inserting the data."}, 500
+        except Exception as e:
+            return {'message': f"An error occured inserting the data: {e.message}"}, 500
         return market.json(), 201 #201 = created
 
     # @jwt_required()
