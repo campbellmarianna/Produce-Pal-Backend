@@ -12,7 +12,7 @@ from resources.farm import Farm, FarmList
 
 #Inialize app
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL','sqlite:///data.db') 
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL','sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 api= Api(app)
@@ -33,10 +33,6 @@ api.add_resource(FarmList, '/farms')
 api.add_resource(Marketlist, '/markets')
 api.add_resource(UserRegester, '/regester')
 
-<<<<<<< HEAD
-=======
-
->>>>>>> master
 if __name__ == '__main__':
     from db import db
     db.init_app(app)
