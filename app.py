@@ -6,6 +6,7 @@ from flask_jwt import JWT
 # from dotenv import load_dotenv
 # import os
 
+from db import db
 from security import authenticate, identity
 from resources.user import UserRegester
 from resources.markets import Market, Marketlist
@@ -50,6 +51,5 @@ api.add_resource(Marketlist, '/markets')
 api.add_resource(UserRegester, '/regester')
 
 if __name__ == '__main__':
-    from db import db
     db.init_app(app)
     app.run(port = 5000, debug=True)
