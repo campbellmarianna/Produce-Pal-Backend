@@ -1,4 +1,6 @@
 import sqlite3
+import traceback
+
 from flask import Flask, request, render_template
 from flask_restful import Resource, Api, reqparse
 from flask_jwt import JWT, jwt_required
@@ -43,8 +45,8 @@ class Market(Resource):
         market = MarketModel(name, **data)
         try:
             market.save_to_db()
-        except Exception as e:
-            return {'message': f"An error occured inserting the data: {e.message}"}, 500
+        except Exception:
+            return {'message': f"An error occured inserting the data:\n{traceback.print_exc}"}, 500
         return market.json(), 201 #201 = created
 
     @jwt_required()
