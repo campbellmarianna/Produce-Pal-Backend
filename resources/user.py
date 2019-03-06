@@ -1,14 +1,11 @@
 import sqlite3
 from flask_restful import Resource, reqparse
-
 from models.user import UserModel
 
 
 class UserRegester(Resource):
-    TABLE_NAME = 'users'
 
     parser = reqparse.RequestParser()
-    #req parser reqiures certiain field to be true before they are inputed into database
     parser.add_argument('username',
         type=str,
         required=True,
@@ -20,9 +17,11 @@ class UserRegester(Resource):
 
     def post(self):
         data = UserRegester.parser.parse_args()
-
+        username = data.get('username', None)
+        if not username:
+            return {"message": "Username not found."}
         if UserModel.find_by_username(data['username']):
-            return {"Message":"A user with that name already exits"}
+            return {"message":"A user with that name already exists."}
 
         user = UserModel(**data)
         user.save_to_db()

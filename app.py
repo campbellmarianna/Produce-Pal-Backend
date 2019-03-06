@@ -1,23 +1,41 @@
 import os # gives us access to operating system environment variables
 
 from flask import Flask, render_template
-from flask_restful import Resource, Api
-from flask_jwt import JWT, jwt_required
+from flask_restful import Api
+from flask_jwt import JWT
+# from dotenv import load_dotenv
+# import os
 
 from security import authenticate, identity
 from resources.user import UserRegester
 from resources.markets import Market, Marketlist
 from resources.farm import Farm, FarmList
+from models.user import UserModel
 
 
 #Inialize app
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL','sqlite:///data.db') 
+# env = DotEnv(app)
+# env.init_app(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #tells SQL alcamy that the DB is in our root file
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PROPAGATE_EXCEPTIONS'] = True
+# app.config['JWT_AUTH_USERNAME_KEY'] = 'joy'
+# app.config['JWT_AUTH_PASSWORD_KEY'] = 'asdf'
 
+app.secret_key = 'jose'
+
+# app.secret_key = load_dotenv(SECRET_KEY)
 api= Api(app)
 
-# jwt = JWT(app, authenticate, identity)
+jwt = JWT(app, authenticate, identity) #/auth
+
+# help(JWT)
+
+@app.before_first_request
+def create_tables():
+    db.create_all()
+
 
 #Hello world:
 @app.route('/')
