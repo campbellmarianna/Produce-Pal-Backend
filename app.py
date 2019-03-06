@@ -15,9 +15,7 @@ from models.user import UserModel
 
 #Inialize app
 app = Flask(__name__)
-# env = DotEnv(app)
-# env.init_app(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db' #tells SQL alcamy that the DB is in our root file
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL','sqlite:///data.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['PROPAGATE_EXCEPTIONS'] = True
 # app.config['JWT_AUTH_USERNAME_KEY'] = 'joy'
@@ -50,7 +48,6 @@ api.add_resource(Market, '/market/<string:name>')
 api.add_resource(FarmList, '/farms')
 api.add_resource(Marketlist, '/markets')
 api.add_resource(UserRegester, '/regester')
-
 
 if __name__ == '__main__':
     from db import db

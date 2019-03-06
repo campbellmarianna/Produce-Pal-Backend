@@ -1,8 +1,5 @@
 env
 *.pyc
-<<<<<<< HEAD
 data.db
 node_modules
-=======
 .env
->>>>>>> auth
